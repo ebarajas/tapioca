@@ -846,7 +846,11 @@ module Tapioca
                 end
               end
             when :ids
-              create_common_method("ids", return_type: "Array")
+              type, _ = Helpers::ActiveRecordColumnTypeHelper
+                .new(constant)
+                .type_for("id")
+
+              create_common_method("ids", return_type: "T::Array[#{type}]")
             when :pick, :pluck
               create_common_method(
                 method_name,
